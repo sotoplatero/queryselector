@@ -1,4 +1,5 @@
-import cheerio from 'cheerio'
+// import cheerio from 'cheerio'
+import HTMLParser from 'fast-html-parser'
 
 export async function get({ query }) {
 	// the `slug` parameter is available because this file
@@ -8,9 +9,10 @@ export async function get({ query }) {
 
 	const res = await fetch(url);
 	const html = await res.text()
-	const $ =  cheerio.load(html)
+	var doc = HTMLParser.parse(html);
+	// const $ =  cheerio.load(html)
 
-	const data = $(selector)?.map( (i,node) => $(node).text().trim() ).get()
+	const data = doc.querySelectorAll(selector)?.map( node => node.rawText.trim() )
 
 	return {
 		body: data
