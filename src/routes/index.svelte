@@ -25,7 +25,7 @@
 	async function execExample(ex){
 		url = ex.url
 		selector = ex.selector
-		await getData()
+		// await getData()
 	}
 </script>
 <main>
