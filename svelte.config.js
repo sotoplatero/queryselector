@@ -5,8 +5,9 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		// hydrate the <div id="svelte"> element in src/app.html
-		target: '#svelte'
-	}
+		target: '#svelte',
+		vite: { optimizeDeps: { include: ['cheerio'] }}
+	},
 };
 
 export default config;
