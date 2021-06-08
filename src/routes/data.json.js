@@ -12,7 +12,7 @@ export async function get({ query }) {
 	var doc = HTMLParser.parse(html);
 	// const $ =  cheerio.load(html)
 
-	const data = doc.querySelectorAll(selector)?.map( node => node.rawText.trim() )
+	const data = doc.querySelectorAll(selector)?.map( node => node?.rawText.trim() )
 
 	return {
 		body: data

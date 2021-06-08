@@ -32,7 +32,7 @@
 </script>
 <main>
 	<header>
-		<h1>querySelectorAll</h1>
+		<h1>QuerySelector</h1>
 		<p>
 			Extract data from any web site easy and fast. Ex: get feature article from <a href on:click|preventDefault={ () => execExample('wikipedia') }>Wikipedia</a> or headline from the <a href on:click|preventDefault={ () => execExample('nyt') }>New York Times</a>
 		
@@ -56,10 +56,11 @@
 		{/if}
 	</form>
 	{#if data}
-		<pre><code class="language-json">
+		<pre class="language-json"><code class="language-json">
 			{JSON.stringify(data,null, 3)}
 		</code></pre>
 		<a href="{api}" target="_blank" rel ="noreferer noopener">Endpoint</a>
 	{/if}
+	<br><br>
 </main>
 
