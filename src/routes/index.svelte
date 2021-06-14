@@ -1,6 +1,9 @@
 <script>
+	import Download from './_download.svelte'
+
 	let url
 	let selector
+	let props = ''
 	let data
 	let api
 	let loading = false
@@ -12,10 +15,13 @@
 		}, 
 		nyt: {
 			url: 'https://www.nytimes.com/',
-			selector: '.story-wrapper h3',
+			selector: '.story-wrapper',
+			props: ['h3','p']
 		}
 	}
-	$: api = `/data.json?url=${url}&selector=${encodeURIComponent(selector)}`
+
+
+	$: api = `/data.json?url=${url}&selector=${encodeURIComponent(selector)}&props=${encodeURIComponent(props)}`
 
 	async function getData(){
 		loading = true
@@ -27,7 +33,7 @@
 		const ex = examples[site]
 		url = ex.url
 		selector = ex.selector
-		// await getData()
+		props = !!ex.props ? ex.props.join("\n") : ''
 	}
 </script>
 <main>
@@ -43,23 +49,39 @@
 		<div>
 			<label for="url"><b>URL</b></label>
 			<input type="text" name="url" bind:value={url} >
-		</div>
-		<br>
-		<div>
+
+			<br>
+
 			<label for="selector"><b>CSS Selector</b></label>
 			<input type="text" name="selector" bind:value={selector} >
+
+			<br>
+
+			<label for="selector"><b>Properties Selector</b></label>
+			<textarea bind:value={props} name="props"></textarea>
 		</div>
 		<br>
-		<button>JSON</button>
+		<button disabled={!(!!url && !!selector)}>
+			JSON
+		</button>
 		{#if loading}
 			<span>loading...</span>
 		{/if}
 	</form>
 	{#if data}
+		<br>
+		<table>
+			<tbody>
+			  <tr>
+			    <td><Download {data}/></td>
+			    <td><a href="/data.csv?url=${url}&selector=${encodeURIComponent(selector)}&props=${encodeURIComponent(props)}" target="_blank" >CSV API</a></td>
+			    <td><a href="{api}" target="_blank" >JSON API</a></td>
+			  </tr>
+			</tbody>
+		</table>		
 		<pre class="language-json"><code class="language-json">
 			{JSON.stringify(data,null, 3)}
 		</code></pre>
-		<a href="{api}" target="_blank" rel ="noreferer noopener">Endpoint</a>
 	{/if}
 	<br><br>
 </main>
