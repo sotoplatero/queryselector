@@ -40,7 +40,7 @@
 	<header>
 		<h1>QuerySelector</h1>
 		<p>
-			Extract data from any web site easy and fast. Ex: get feature article from <a href on:click|preventDefault={ () => execExample('wikipedia') }>Wikipedia</a> or headline from the <a href on:click|preventDefault={ () => execExample('nyt') }>New York Times</a>
+			Extract data from any web site easy and fast. Ex: get feature article from <a href on:click|preventDefault={ () => execExample('wikipedia') }>Wikipedia</a> or extract the title and summary of each news in the <a href on:click|preventDefault={ () => execExample('nyt') }>New York Times</a> web.
 		
 		</p>
 	</header>
@@ -52,12 +52,12 @@
 
 			<br>
 
-			<label for="selector"><b>CSS Selector</b></label>
+			<label for="selector"><b>Object Selector</b></label>
 			<input type="text" name="selector" bind:value={selector} >
 
 			<br>
 
-			<label for="selector"><b>Properties Selector</b></label>
+			<label for="selector"><b>Property Selectors</b></label>
 			<textarea bind:value={props} name="props"></textarea>
 		</div>
 		<br>
@@ -74,7 +74,7 @@
 			<tbody>
 			  <tr>
 			    <td><Download {data}/></td>
-			    <td><a href="/data.csv?url=${url}&selector=${encodeURIComponent(selector)}&props=${encodeURIComponent(props)}" target="_blank" >CSV API</a></td>
+			    <td><a href="/data.csv?url={url}&selector={encodeURIComponent(selector)}&props={encodeURIComponent(props)}" target="_blank" >CSV API</a></td>
 			    <td><a href="{api}" target="_blank" >JSON API</a></td>
 			  </tr>
 			</tbody>
