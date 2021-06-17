@@ -6,7 +6,11 @@ export async function get({ query }) {
 	// is called [slug].json.js
 	const url = query.get('url');
 	const selector = query.get('selector');
-	const props = (query.get('props') || '').split(/\n/).filter( el => !!el )
+	const props = (query.get('properties') || '').split(/\n/).filter( el => !!el )
+
+	if (!url && !selector ) {
+		return { body: [] }
+	}
 
 	const res = await fetch(url);
 	const html = await res.text()

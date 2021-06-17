@@ -1,10 +1,33 @@
+<script context="module">
+	export async function load({ page, fetch, session, context }) {
+		const url = page.query.get('url') || ''
+		const selector = page.query.get('selector') || ''
+		const properties = page.query.get('properties') || ''
+
+		const querystring = encodeURI(page.query.toString())
+		console.log(querystring)
+		const res = await fetch(`/data.json?${querystring}`);
+
+		if (res.ok) {
+			const data = await res.json()
+			console.log(data)
+			return {
+				props: { url, selector,	properties,	data }
+			};
+		}
+		return { props: {} }
+	}
+</script>
+
 <script>
+	// import onMount from 'svelte'
 	import Download from './_download.svelte'
 
-	let url
-	let selector
-	let props = ''
-	let data
+	export let data = ''
+	export let url = ''
+	export let selector = ''
+	export let properties = ''
+	
 	let api
 	let loading = false
 
@@ -16,13 +39,15 @@
 		nyt: {
 			url: 'https://www.nytimes.com/',
 			selector: '.story-wrapper',
-			props: ['h3','p']
+			properties: ['h3','p']
 		}
 	}
 
+	$: api = `/data.json?url=${url}&selector=${encodeURIComponent(selector)}&properties=${encodeURIComponent(properties)}`
 
-	$: api = `/data.json?url=${url}&selector=${encodeURIComponent(selector)}&props=${encodeURIComponent(props)}`
+	// onMount(async () => {
 
+	// })
 	async function getData(){
 		loading = true
 		const res = await fetch(api)
@@ -33,7 +58,7 @@
 		const ex = examples[site]
 		url = ex.url
 		selector = ex.selector
-		props = !!ex.props ? ex.props.join("\n") : ''
+		properties = !!ex.properties ? ex.properties.join("\n") : ''
 	}
 </script>
 <main>
@@ -58,7 +83,7 @@
 			<br>
 
 			<label for="selector"><b>Property Selectors</b></label>
-			<textarea bind:value={props} name="props"></textarea>
+			<textarea bind:value={properties} name="properties"></textarea>
 		</div>
 		<br>
 		<button disabled={!(!!url && !!selector)}>
@@ -74,7 +99,7 @@
 			<tbody>
 			  <tr>
 			    <td><Download {data}/></td>
-			    <td><a href="/data.csv?url={url}&selector={encodeURIComponent(selector)}&props={encodeURIComponent(props)}" target="_blank" >CSV API</a></td>
+			    <td><a href="/data.csv?url={url}&selector={encodeURIComponent(selector)}&properties={encodeURIComponent(properties)}" target="_blank" >CSV API</a></td>
 			    <td><a href="{api}" target="_blank" >JSON API</a></td>
 			  </tr>
 			</tbody>

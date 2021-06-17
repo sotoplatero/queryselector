@@ -2,9 +2,9 @@
 import HTMLParser from 'fast-html-parser'
 
 export async function get({ query }) {
-	const url = query.get('url');
-	const selector = query.get('selector');
-	const props = (query.get('props') || '').split(/\n/).filter( el => !!el )
+	const url = decodeURIComponent(query.get('url'));
+	const selector = decodeURIComponent(query.get('selector'));
+	const props = decodeURIComponent(query.get('props')).split(/\n/).filter( el => !!el )
 
 	const res = await fetch(url);
 	const html = await res.text()
