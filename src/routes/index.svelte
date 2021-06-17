@@ -23,11 +23,11 @@
 	// import onMount from 'svelte'
 	import Download from './_download.svelte'
 
-	export let data = ''
+	export let data = []
 	export let url = ''
 	export let selector = ''
 	export let properties = ''
-	
+
 	let api
 	let loading = false
 
@@ -93,7 +93,7 @@
 			<span>loading...</span>
 		{/if}
 	</form>
-	{#if data}
+	{#if data.length}
 		<br>
 		<table>
 			<tbody>

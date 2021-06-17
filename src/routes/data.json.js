@@ -4,9 +4,9 @@ import HTMLParser from 'fast-html-parser'
 export async function get({ query }) {
 	// the `slug` parameter is available because this file
 	// is called [slug].json.js
-	const url = query.get('url');
-	const selector = query.get('selector');
-	const props = (query.get('properties') || '').split(/\n/).filter( el => !!el )
+	const url = decodeURIComponent(query.get('url') || '');
+	const selector = decodeURIComponent(query.get('selector') || '');
+	const props = decodeURIComponent((query.get('properties') || '')).split(/\n/).filter( el => !!el )
 
 	if (!url && !selector ) {
 		return { body: [] }
