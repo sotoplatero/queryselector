@@ -5,12 +5,10 @@
 		const properties = page.query.get('properties') || ''
 
 		const querystring = encodeURI(page.query.toString())
-		console.log(querystring)
 		const res = await fetch(`/data.json?${querystring}`);
 
 		if (res.ok) {
 			const data = await res.json()
-			console.log(data)
 			return {
 				props: { url, selector,	properties,	data }
 			};

@@ -6,7 +6,9 @@ export async function get({ query }) {
 	// is called [slug].json.js
 	const url = decodeURIComponent(query.get('url') || '');
 	const selector = decodeURIComponent(query.get('selector') || '');
-	const props = decodeURIComponent((query.get('properties') || '')).split(/\n/).filter( el => !!el )
+	let props = decodeURIComponent((query.get('properties') || ''))
+
+	props = props ? props.split(/\n/).filter( el => !!el ) : ''
 
 	if (!url && !selector ) {
 		return { body: [] }
@@ -16,6 +18,7 @@ export async function get({ query }) {
 	const html = await res.text()
 	var doc = HTMLParser.parse(html);
 
+	console.log('prosp:' + typeof props)
 	const data = doc.querySelectorAll(selector)?.map( node => { 
 		if (!!props) {
 			let obj = {}
